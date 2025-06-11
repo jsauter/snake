@@ -1,0 +1,9 @@
+{
+    "terminal": {
+        "shell": "wsl",
+        "shellArgs": []
+    },
+    "python": {
+        "defaultInterpreterPath": "python3"
+    }
+} 
