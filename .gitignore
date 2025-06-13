@@ -1,3 +1,5 @@
 .venv
 .cursor
 .vscode
+
+ __pycache__

@@ -6,17 +6,25 @@ class KeyManager:
     def __init__(self):
         self.keyBuffer = Direction.UP
 
-    def handleKey(self):
+    def handle_key(self):
         keys = pygame.key.get_pressed()
 
-        if keys[pygame.K_DOWN or pygame.K_s]:
+        if keys[pygame.K_DOWN]:
             self.keyBuffer = Direction.DOWN
-        if keys[pygame.K_UP or pygame]:
+            print("Down")
+            print(self.keyBuffer)
+        elif keys[pygame.K_UP]:
             self.keyBuffer = Direction.UP
-        if keys[pygame.K_LEFT]:
+            print("Up")
+            print(self.keyBuffer)
+        elif keys[pygame.K_LEFT]:
             self.keyBuffer = Direction.LEFT
-        if keys[pygame.K_RIGHT]:
+            print("Left")
+            print(self.keyBuffer)
+        elif keys[pygame.K_RIGHT]:
             self.keyBuffer = Direction.RIGHT
+            print("Right")
+            print(self.keyBuffer)
 
 
 pygame.init()
@@ -55,8 +63,8 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    keyManager.handleKey()
-    snake.move(keyManager.keyBuffer, dt)
+    keyManager.handle_key()
+    snake.update(keyManager.keyBuffer, dt)
 
     screen.fill("gray")
 

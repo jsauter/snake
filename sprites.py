@@ -9,10 +9,10 @@ class TileStatus(Enum):
 
 
 class Direction(Enum):
-    UP = 0
+    UP = -1
     DOWN = 1
-    LEFT = 2
-    RIGHT = 3
+    LEFT = -1
+    RIGHT = 1
 
 
 class Tile:
@@ -64,32 +64,77 @@ class Snake:
         self.height = height
         self.dt = 0
         self.speed = 1  # this is how many seconds to wait before moving 1 tile
-        self.path = []
+        self.body = []
+        self.bodyLength = 5
+        self.is_alive = True
+
+        randomY = random.randint(1, self.screenHeight // self.height)
+
+        while randomY > self.screenHeight // self.height + self.bodyLength:
+            randomY = random.randint(1, self.screenHeight // self.height)
 
         self.direction = direction
-
-        self.startLocation = (
+        startLocation = (
             random.randint(1, self.screenWidth // self.width),
-            random.randint(1, self.screenHeight // self.height),
+            randomY,
         )
-        self.x = self.width * self.startLocation[0]
-        self.y = self.height * self.startLocation[1]
+
+        x = self.width * startLocation[0]
+        y = self.height * startLocation[1]
+
+        # build body of snake to start with
+        for i in range(self.bodyLength):
+            self.body.append(
+                (
+                    x // self.width,
+                    y // self.height + i,
+                )
+            )
 
     def draw(self, screen):
-        pygame.draw.rect(screen, "red", (self.x, self.y, self.width, self.height))
-        for i in range(len(self.path)):
+        for i in range(len(self.body)):
             pygame.draw.rect(
                 screen,
                 "red",
-                (self.path[i][0], self.path[i][1], self.width, self.height),
+                (
+                    self.width * self.body[i][0],
+                    self.height * self.body[i][1],
+                    self.width,
+                    self.height,
+                ),
             )
 
-    def move(self, direction: Direction, dt: float):
+    def update(self, direction: Direction, dt: float):
         self.dt += dt
         self.direction = direction
 
         if self.dt >= self.speed:
-
-            print(self.direction)
-            print(self.dt)
             self.dt = 0
+            if self.try_to_eat():
+                self.add_to_tail()
+            self.move()
+
+    def move(self):
+        x = self.body[0][0]
+        y = self.body[0][1]
+
+        if self.direction == Direction.UP or self.direction == Direction.DOWN:
+            y = self.body[0][1] + self.direction.value
+        elif self.direction == Direction.LEFT or self.direction == Direction.RIGHT:
+            x = self.body[0][0] + self.direction.value
+
+        body_copy = self.body.copy()
+
+        self.body = []
+        self.body.append((x, y))
+
+        for i in range(len(body_copy)):
+            self.body.append(body_copy[i])
+
+        self.body.pop()
+
+    def try_to_eat(self):
+        return False
+
+    def add_to_tail(self):
+        pass
