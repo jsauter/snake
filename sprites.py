@@ -1,4 +1,4 @@
-from enum import Enum
+from enum import Enum, auto
 import random
 import pygame
 
@@ -9,10 +9,19 @@ class TileStatus(Enum):
 
 
 class Direction(Enum):
-    UP = -1
-    DOWN = 1
-    LEFT = -1
-    RIGHT = 1
+    UP = auto()
+    DOWN = auto()
+    LEFT = auto()
+    RIGHT = auto()
+
+    def __int__(self):
+        if self == Direction.UP or self == Direction.LEFT:
+            return -1
+        return 1
+
+    @property
+    def value(self):
+        return int(self)
 
 
 class Tile:
@@ -25,7 +34,8 @@ class Tile:
 
     def draw(self, screen):
         if self.tileStatus == TileStatus.EMPTY:
-            pygame.draw.rect(screen, "black", (self.x, self.y, self.width, self.height))
+            pygame.draw.rect(
+                screen, "black", (self.x, self.y, self.width, self.height))
             pygame.draw.rect(
                 screen,
                 "grey",
@@ -53,7 +63,8 @@ class Food:
         self.y = self.height * self.foodLocation[1]
 
     def draw(self, screen):
-        pygame.draw.rect(screen, "green", (self.x, self.y, self.width, self.height))
+        pygame.draw.rect(
+            screen, "green", (self.x, self.y, self.width, self.height))
 
 
 class Snake:

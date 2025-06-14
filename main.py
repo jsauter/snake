@@ -11,20 +11,12 @@ class KeyManager:
 
         if keys[pygame.K_DOWN]:
             self.keyBuffer = Direction.DOWN
-            print("Down")
-            print(self.keyBuffer)
         elif keys[pygame.K_UP]:
             self.keyBuffer = Direction.UP
-            print("Up")
-            print(self.keyBuffer)
         elif keys[pygame.K_LEFT]:
             self.keyBuffer = Direction.LEFT
-            print("Left")
-            print(self.keyBuffer)
         elif keys[pygame.K_RIGHT]:
             self.keyBuffer = Direction.RIGHT
-            print("Right")
-            print(self.keyBuffer)
 
 
 pygame.init()
@@ -37,10 +29,10 @@ clock = pygame.time.Clock()
 keyManager = KeyManager()
 
 tiles = []
-keyBuffer = Direction.UP
 
 food = Food(defaultWidth, defaultHeight, defaultTileSize, defaultTileSize)
-snake = Snake(defaultWidth, defaultHeight, defaultTileSize, defaultTileSize, keyBuffer)
+snake = Snake(defaultWidth, defaultHeight,
+              defaultTileSize, defaultTileSize, Direction.UP)
 
 for i in range(defaultWidth // defaultTileSize):
     for j in range(defaultHeight // defaultTileSize):
