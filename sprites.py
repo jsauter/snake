@@ -34,8 +34,7 @@ class Tile:
 
     def draw(self, screen):
         if self.tileStatus == TileStatus.EMPTY:
-            pygame.draw.rect(
-                screen, "black", (self.x, self.y, self.width, self.height))
+            pygame.draw.rect(screen, "black", (self.x, self.y, self.width, self.height))
             pygame.draw.rect(
                 screen,
                 "grey",
@@ -56,15 +55,14 @@ class Food:
         self.height = height
 
         self.foodLocation = (
-            random.randint(1, self.screenWidth // self.width),
+            random.randint(1, self.screenWidth // self.width) - 1,
             random.randint(1, self.screenHeight // self.height),
         )
         self.x = self.width * self.foodLocation[0]
         self.y = self.height * self.foodLocation[1]
 
     def draw(self, screen):
-        pygame.draw.rect(
-            screen, "green", (self.x, self.y, self.width, self.height))
+        pygame.draw.rect(screen, "green", (self.x, self.y, self.width, self.height))
 
 
 class Snake:
@@ -74,19 +72,19 @@ class Snake:
         self.width = width
         self.height = height
         self.dt = 0
-        self.speed = 1  # this is how many seconds to wait before moving 1 tile
+        self.speed = 0.25  # this is how many seconds to wait before moving 1 tile
         self.body = []
         self.bodyLength = 5
         self.is_alive = True
 
         randomY = random.randint(1, self.screenHeight // self.height)
 
-        while randomY > self.screenHeight // self.height + self.bodyLength:
+        while randomY > (self.screenHeight // self.height) - self.bodyLength:
             randomY = random.randint(1, self.screenHeight // self.height)
 
         self.direction = direction
         startLocation = (
-            random.randint(1, self.screenWidth // self.width),
+            random.randint(1, self.screenWidth // self.width) - 1,
             randomY,
         )
 
